@@ -10,15 +10,26 @@
 %\usepackage{algorithm}
 %\usepackage{wasysym} % symbols
 
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\DeclareMathOperator{\EX}{EX}
+\DeclareMathOperator{\AX}{AX}
+\DeclareMathOperator{\EF}{EF}
+\DeclareMathOperator{\AF}{AF}
+\DeclareMathOperator{\EG}{EG}
+\DeclareMathOperator{\AG}{AG}
+\DeclareMathOperator{\qst}{?}
+
 %%% Layout settings %%%
 \usetheme{NewLuebeck}
 
 %%% Meta information %%%
 
-\title[MVMC based QC]{Multi Valued Model Checking based Query Checking}
+\title[MVMC based QC]{Multi Valued Model Checking\\ based Query Checking}
 %\subtitle{Untertitel}
 \author[J.\ Thorn]{Johannes Thorn\\
-                        \footnotesize{\url{thorn@informatik.uni-luebeck.de}}}%
+  \footnotesize{\url{thorn@informatik.uni-luebeck.de}}}%
 
 \institute{\begin{minipage}{10cm}  
 \center Institut für Softwaretechnik und Programmiersprachen \\   

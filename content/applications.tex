@@ -1,18 +1,69 @@
 \section{Applications}
 
-\begin{frame}{Example}
-  no content
+\begin{frame}{Multi Valued System Model}
+  \begin{itemize}
+    \item model with two variables
+    \item power mode $p \in \{\text{on},\text{standby},\text{off}\}$
+    \item value $v \in \{0,1,2,3,4\}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[plain]{}
+  \begin{center}
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,
+        node distance=12em,thick]
+    \tikzstyle{every state}=[fill=oceangreen!19,minimum width=3em,align=center]
+
+      \node[initial,state] (A) {p = off\\v = 0};
+      \node[state]         (B) [above right of=A,yshift=-7ex] {p = on\\v = 1};
+      \node[state]         (C) [below right of=B,yshift=7ex] {p = on\\v = 2};
+      \node[state]         (D) [below left of=C,yshift=7ex] {p = on\\v = 3};
+      \node[state]         (E) [below of=A,node distance=8em] {p = on\\v = 4};
+
+      \path (A) edge [bend left] (B)
+            (B) edge [bend left] (A)
+                edge [bend left] (C)
+            (C) edge (A)
+                edge [bend left] (B)
+                edge [bend left] (D)
+            (D) edge (A)
+                edge (B)
+                edge [bend left] (C)
+            (E) edge (A);
+    \end{tikzpicture}
+  \end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Without Witnesses}
 
-\begin{frame}{Applications without Witnesses}
-  no content
+\begin{frame}{Reachability Analysis}
+  Which power modes are reachable?
+  \begin{itemize}
+    \item $\EF (p = \text{on})$
+    \item $\EF (p = \text{standby})$
+    \item $\EF (p = \text{off})$
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Reachability Analysis}
-  no content
+\begin{frame}{Reachable Power Modes}
+  Reachability Query:
+  \[\EF \qst_1\{p\}\]
+  
+  \pause
+  
+  Solution:
+  \[\qst_1 = \{p = \text{on}, p = \text{off}\}\]
+\end{frame}
+
+\begin{frame}{Next Values}
+  Which values follow off mode?
+  \[\EF (p = \text{off} \land \EX\qst_1\{v\})\]
+  
+  \pause
+  
+  Solution:
+  \[\qst_1 = \{v = 1\}\]
 \end{frame}
 
 \begin{frame}{Discovering Invariants}
