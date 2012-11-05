@@ -49,30 +49,51 @@
 \begin{frame}{Reachable Power Modes}
   Reachability Query:
   \[\EF \qst_1\{p\}\]
-  
-  \pause
-  
+
   Solution:
-  \[\qst_1 = \{p = \text{on}, p = \text{off}\}\]
+  \[ \qst_1 = \{p = \text{on}, p = \text{off}\} \]
 \end{frame}
 
 \begin{frame}{Next Values}
   Which values follow off mode?
-  \[\EF (p = \text{off} \land \EX\qst_1\{v\})\]
-  
-  \pause
-  
+  \[ \EF (p = \text{off} \land \EX\qst_1\{v\}) \]
+
   Solution:
-  \[\qst_1 = \{v = 1\}\]
+  \[ \qst_1 = \{v = 1\} \]
 \end{frame}
 
 \begin{frame}{Discovering Invariants}
-  no content
+  \begin{itemize}
+    \item find complex relationships
+    \item identify errors
+  \end{itemize}
+
+  All invariants:
+  \[ \AG \qst_1 \]
 \end{frame}
 
-\begin{frame}{Guard Discovery}
-  no content
+\begin{frame}{Restrict Invariants}
+  Invariants for mode standby:
+  \[ \AG ((p = \text{standby}) \Rightarrow \qst_1\{v\}) \]
+
+  Solution:
+  \[ \qst_1 = \{v = 4\} \]
 \end{frame}
+
+\begin{frame}{Discovering Invariants}
+  More invariants:
+  \[ \AG (\qst_1\{p\} \Rightarrow \qst_2\{v\}) \]
+  
+  Partial Solution:
+  \begin{align*}
+    \qst_1 &= \{p = \text{off}\} &\qst_2 &= \{v = 0\} \\
+    \qst_1 &= \{p = \text{standby}\} &\qst_2 &= \{v = 4\}
+  \end{align*}
+\end{frame}
+
+%\begin{frame}{Guard Discovery}
+%  Nicht auch noch?
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{With Witnesses} 

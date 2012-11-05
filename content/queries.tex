@@ -1,0 +1,188 @@
+\section{Deciding Temporal Logic Queries}
+
+\begin{frame}{Example Kripke Structure}
+  \begin{center}
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,
+        node distance=12em,thick]
+    \tikzstyle{every state}=[fill=oceangreen!19,minimum width=5em,align=center,inner sep=4pt]
+    \tikzstyle{every pin}=[distance=2ex]
+    \tikzstyle{every pin edge}=[-,draw=none,thin]
+
+      \node[initial,state,pin=above :{$s_0$}] (s0) {$p$\\$\lnot q$\\$r$};
+      \node[state,pin=right :{$s_2$}]         (s2) [below right of=s0] {$p$\\$q$\\$r$};
+      \node[state,pin=above :{$s_1$}]         (s1) [above right of=s2] {$\lnot p$\\$q$\\$r$};
+      
+
+      \path (s0) edge (s1)
+            (s0) edge [bend left] (s2)
+            (s1) edge [loop right] ()
+            (s2) edge [bend left] (s0)
+                 edge (s1);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Naive Approach}
+  \[ \AG \qst_1 \{p,q\} \]
+  
+  \begin{itemize}
+    \item fixed set of $k$ atomic propositions
+    \item take all $2^{2^k}$ propositional formulas
+    \item substitute the placeholder
+    \item verify each resulting formula
+    \item return set of maximally strong solutions
+  \end{itemize}
+\end{frame}
+
+\subsection{Queries with one Placeholder}
+
+%\begin{frame}{Basics}
+%  Propositional formulas $\PF(P)$
+%  \[ \PF(\{p\}) = \{ \true, \false, p, \lnot p\} \]
+%  
+%  $\mcJ(\mcL)$ set of all join-irreducible elements of \
+%  
+%  $\chi$CTL(\mcL) formula for $\qst_1\{p\}$:
+%  \[ (p \land \uparrow\{p\}) \lor (\lnot p \land \uparrow\{\lnot p\}) \]
+%\end{frame}
+
+
+\begin{frame}{Simple Query $\qst_1\{p\}$}
+  Propositional formulas:
+  \[ \PF(\{p\}) = \{ \true, \false, p, \lnot p\} \]
+  
+  Formula $p$ holds in $s_0$
+  
+  Solution is $\uparrow\{p\}$
+  
+  
+\end{frame}
+
+\begin{frame}{Simple Query $\qst_1\{p\}$}
+  Arbitrary state $s$:
+  \[ \llbracket \qst_1\{p\} \rrbracket (s) = \begin{cases}
+       \uparrow\{p\} & \text{if } \llbracket p \rrbracket (s) = \true \\
+       \uparrow\{\lnot p\} & \text{if } \llbracket \lnot p \rrbracket (s) = \true \\
+     \end{cases} 
+  \]
+  
+  $\chi$CTL(\mcL) formula for $\qst_1\{p\}$:
+  \[ (p \land \uparrow\{p\}) \lor (\lnot p \land \uparrow\{\lnot p\}) \]
+\end{frame}
+
+\begin{frame}{Query $\qst_1$}
+  Solution to the query $\qst_1$ for an arbitrary set of propositions:
+  \[ \llbracket \qst_1 \rrbracket (s) = \uparrow\{j\} \text{ iff } \llbracket j \rrbracket (s) = \true
+  \]
+  
+  Where $j\in\mcJ(\PF(\qst_1))$
+\end{frame}
+
+\begin{frame}{Syntactic Translation $\T_\uparrow$}
+  Translation into $\chi$CTL(\mcL) formula over the lattice $\U(\PF(\qst_1))$:
+  \[ 
+    \T_\uparrow(\qst_1) \triangleq \bigvee_{j\in\mcJ(\PF(\qst_1))} (j \land \uparrow j)
+  \]
+\end{frame}
+
+\begin{frame}{Generalized Translation $\T_f$}
+  Replace $\uparrow$ by a function $f : \mcJ(\PF(\qst_1)) \to \mcL$
+
+  Generalized translation function:
+  \[ 
+    \T_f(\qst_1) \triangleq \bigvee_{j\in\mcJ(\PF(\qst_1))} (j \land f(j))
+  \]
+\end{frame}
+
+\begin{frame}{Extending Translation $\T_f$}
+  Extend $\T_f$ from $\qst_1$ to all logic queries:
+  \[ 
+    \T_f(\phi[\qst_1]) \triangleq \phi[\T_f(\qst_1)]
+  \]
+  
+  \begin{example}[Solution for $\EX \qst_1\{p,q\}$]
+    Apply transformation:
+    \[ \T_f(\EX \qst_1\{p,q\}) = \EX\T_f( \qst_1\{p,q\}) \]
+  \end{example}
+\end{frame}
+
+\begin{frame}{Solution for $\EX \qst_1\{p,q\}$}
+  \begin{example}[Expand $\T_f( \qst_1\{p,q\})$]
+    \begin{align*}
+      \T_f( \qst_1\{p,q\}) =
+        &(p \land q \land \uparrow\{p\land q\}) \lor \\
+        &(p \land \lnot q \land \uparrow\{p\land \lnot q\}) \lor \\
+        &(\lnot p \land q \land \uparrow\{\lnot p\land q\}) \lor \\
+        &(\lnot p \land \lnot q \land \uparrow\{\lnot p\land \lnot q\})
+    \end{align*}
+  \end{example}
+\end{frame}
+
+\begin{frame}{Solution for $\EX \qst_1\{p,q\}$}
+  \begin{example}[Evaluate resulting formula]
+    \begin{align*}
+      & \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_0) \\
+        =& \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_1) \lor \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_2) \\
+        =& \uparrow\{\lnot p\land q\} \lor \uparrow\{p\land q\} \\
+        =& \uparrow\{p\land q, \lnot p\land q\} 
+    \end{align*}
+  \end{example}
+\end{frame}
+
+\subsection{Multiple Placeholders}
+
+\subsection{Negative Queries}
+
+\begin{frame}{Decide Negative Queries}
+  Mixed queries $\phi[\qst_1]$:
+  \begin{itemize}
+    \item transform negative query into positive one
+    \item apply query checking
+    \item postprocess result
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transform into Positive Query}
+  Transform negative query $\phi[\qst_1]$ into $\phi[\qst_{1+},\qst_{1-}]$ denoted by $\myH$
+  \begin{itemize}
+    \item remove all negations for $\qst_{1}$
+    \item $\myH(\qst_1 \land \EX \lnot \qst_1) = \qst_{1+} \land \EX \lnot \qst_{1-}$
+    \item $\myH$ does not change restrictions \\ 
+          $\PF(\qst_{1}) = \PF(\qst_{1+}) = \PF(\qst_{1-})$
+  \end{itemize}
+\end{frame}
+
+\subsection{Mixed Queries}
+
+\begin{frame}{Decide Mixed Queries}
+  Mixed queries $\phi[\qst_1]$:
+  \begin{itemize}
+    \item transform mixed query into monotone one
+    \item apply query checking
+    \item postprocess solution
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transform into Monotone Query}
+  Transform mixed query $\phi[\qst_1]$ into $\phi[\qst_{1+},\qst_{1-}]$ denoted by $\myH$
+  \begin{itemize}
+    \item replace positive occurrences with $\qst_{1+}$
+    \item replace negative occurrences with $\qst_{1-}$
+    \item $\myH(\qst_1 \land \EX \lnot \qst_1) = \qst_{1+} \land \EX \lnot \qst_{1-}$
+    \item $\myH$ does not change restrictions \\ 
+          $\PF(\qst_{1}) = \PF(\qst_{1+}) = \PF(\qst_{1-})$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Find a Solution}
+  \begin{itemize}
+    \item find solution for $\phi[\qst_{1+},\qst_{1-}]$
+    \item postprocess solution for $\phi[\qst_{1+},\qst_{1-}]$
+      \[
+        \llbracket \phi(\qst_1) \rrbracket (s) = \{ a \mid (a,a) \in 
+          \llbracket \myH (\phi)\phi[\qst_{1+},\qst_{1-}] \rrbracket (s) \}
+      \]
+  \end{itemize}
+  
+  extendable to multiple mixed placeholders
+\end{frame}
