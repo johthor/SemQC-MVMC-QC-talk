@@ -1,5 +1,20 @@
 \section{Deciding Temporal Logic Queries}
 
+\begin{frame}{Deciding Temporal Logic Queries}
+  Query:
+  \[ \AG \qst_1 \{p,q\} \]
+  
+  Naive approach:
+  \begin{itemize}
+    \item fixed set of $k$ atomic propositions
+    \item take all $2^{2^k}$ propositional formulas
+    \item substitute the placeholder
+    \item verify each resulting formula
+    \item return set of maximally strong solutions
+  \end{itemize}
+\end{frame}
+
+
 \begin{frame}{Example Kripke Structure}
   \begin{center}
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,
@@ -20,18 +35,6 @@
                  edge (s1);
     \end{tikzpicture}
   \end{center}
-\end{frame}
-
-\begin{frame}{Naive Approach}
-  \[ \AG \qst_1 \{p,q\} \]
-  
-  \begin{itemize}
-    \item fixed set of $k$ atomic propositions
-    \item take all $2^{2^k}$ propositional formulas
-    \item substitute the placeholder
-    \item verify each resulting formula
-    \item return set of maximally strong solutions
-  \end{itemize}
 \end{frame}
 
 \subsection{Queries with one Placeholder}
@@ -109,11 +112,11 @@
 \begin{frame}{Solution for $\EX \qst_1\{p,q\}$}
   \begin{example}[Expand $\T_f( \qst_1\{p,q\})$]
     \begin{align*}
-      \T_f( \qst_1\{p,q\}) =
-        &(p \land q \land \uparrow\{p\land q\}) \lor \\
-        &(p \land \lnot q \land \uparrow\{p\land \lnot q\}) \lor \\
-        &(\lnot p \land q \land \uparrow\{\lnot p\land q\}) \lor \\
-        &(\lnot p \land \lnot q \land \uparrow\{\lnot p\land \lnot q\})
+      \T_f( \qst_1\{p,q\}) 
+        =   &(p \land q \land \uparrow\{p\land q\}) \\
+        \lor&(p \land \lnot q \land \uparrow\{p\land \lnot q\}) \\
+        \lor&(\lnot p \land q \land \uparrow\{\lnot p\land q\}) \\
+        \lor&(\lnot p \land \lnot q \land \uparrow\{\lnot p\land \lnot q\})
     \end{align*}
   \end{example}
 \end{frame}
@@ -129,12 +132,21 @@
   \end{example}
 \end{frame}
 
-\subsection{Multiple Placeholders}
+\subsection{Multiple Placeholders}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Negative Queries}
+\begin{frame}{Decide Queries with Multiple Placeholders}
+  Queries with multiple placeholders $\phi[\qst_1,\ldots,\qst_n]$:
+  \begin{itemize}
+    \item set of all solutions $L = \PF(\qst_1)\times \cdots \times \PF(\qst_n)$
+  \end{itemize}
+\end{frame}
+
+\frame{\Huge Hier fehlt mir die Idee wie ich Multiple Placeholders verständlich erklären kann}
+
+\subsection{Negative Queries}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Decide Negative Queries}
-  Mixed queries $\phi[\qst_1]$:
+  Negative queries $\phi[\qst_1]$:
   \begin{itemize}
     \item transform negative query into positive one
     \item apply query checking
@@ -143,16 +155,28 @@
 \end{frame}
 
 \begin{frame}{Transform into Positive Query}
-  Transform negative query $\phi[\qst_1]$ into $\phi[\qst_{1+},\qst_{1-}]$ denoted by $\myH$
+  Transform negative query $\phi[\qst_1]$ into positive query denoted by $\myN$
   \begin{itemize}
-    \item remove all negations for $\qst_{1}$
-    \item $\myH(\qst_1 \land \EX \lnot \qst_1) = \qst_{1+} \land \EX \lnot \qst_{1-}$
-    \item $\myH$ does not change restrictions \\ 
-          $\PF(\qst_{1}) = \PF(\qst_{1+}) = \PF(\qst_{1-})$
+    \item remove all negations in front of $\qst_{1}$
+    \item $\myN(\EX \lnot \qst_1) = \EX \qst_{1}$
+    \item $\myN(\phi)[\lnot\qst_1] = \phi[\qst_1]$
   \end{itemize}
 \end{frame}
 
-\subsection{Mixed Queries}
+\begin{frame}{Find a Solution to $\phi(\qst_1)$}
+  \begin{itemize}
+    \item find solution for $\myN(\phi[\qst_1])$
+    \item negate substitutions \\
+      \[
+        \llbracket \phi(\qst_1) \rrbracket (s) = \{ \lnot l \mid l \in 
+          \llbracket \myN(\phi)[\qst_1] \rrbracket (s) \}
+      \]
+  \end{itemize}
+\end{frame}
+
+
+
+\subsection{Mixed Queries}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Decide Mixed Queries}
   Mixed queries $\phi[\qst_1]$:
@@ -174,13 +198,13 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Find a Solution}
+\begin{frame}{Find a Solution to $\phi(\qst_1)$}
   \begin{itemize}
     \item find solution for $\phi[\qst_{1+},\qst_{1-}]$
     \item postprocess solution for $\phi[\qst_{1+},\qst_{1-}]$
       \[
         \llbracket \phi(\qst_1) \rrbracket (s) = \{ a \mid (a,a) \in 
-          \llbracket \myH (\phi)\phi[\qst_{1+},\qst_{1-}] \rrbracket (s) \}
+          \llbracket \myH (\phi)[\qst_{1+},\qst_{1-}] \rrbracket (s) \}
       \]
   \end{itemize}
   
