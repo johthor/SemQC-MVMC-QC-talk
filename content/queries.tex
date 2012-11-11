@@ -71,7 +71,7 @@
   
   Formula $p$ holds in $s_0$
   
-  Solution is $\uparrow\{p\}$
+  Solution is \upclos{p}
   
   
 \end{frame}
@@ -79,18 +79,18 @@
 \begin{frame}{Simple Query $\qst_1\{p\}$}
   Arbitrary state $s$:
   \[ \llbracket \qst_1\{p\} \rrbracket (s) = \begin{cases}
-       \uparrow\{p\} & \text{if } \llbracket p \rrbracket (s) = \true \\
-       \uparrow\{\lnot p\} & \text{if } \llbracket \lnot p \rrbracket (s) = \true \\
+       \upclos{p} & \text{if } \llbracket p \rrbracket (s) = \true \\
+       \upclos{\lnot p} & \text{if } \llbracket \lnot p \rrbracket (s) = \true \\
      \end{cases} 
   \]
   
   $\chi$CTL(\mcL) formula for $\qst_1\{p\}$:
-  \[ (p \land \uparrow\{p\}) \lor (\lnot p \land \uparrow\{\lnot p\}) \]
+  \[ (p \land \upclos{p}) \lor (\lnot p \land \upclos{\lnot p}) \]
 \end{frame}
 
 \begin{frame}{Query $\qst_1$}
   Solution to the query $\qst_1$ for an arbitrary set of propositions:
-  \[ \llbracket \qst_1 \rrbracket (s) = \uparrow\{j\} \text{ iff } \llbracket j \rrbracket (s) = \true
+  \[ \llbracket \qst_1 \rrbracket (s) = \upclos{j} \text{ iff } \llbracket j \rrbracket (s) = \true
   \]
   
   Where $j\in\mcJ(\PF(\qst_1))$
@@ -99,7 +99,7 @@
 \begin{frame}{Syntactic Translation $\T_\uparrow$}
   Translation into $\chi$CTL(\mcL) formula over the lattice $\U(\PF(\qst_1))$:
   \[ 
-    \T_\uparrow(\qst_1) \triangleq \bigvee_{j\in\mcJ(\PF(\qst_1))} (j \land \uparrow j)
+    \T_\uparrow(\qst_1) \triangleq \bigvee_{j\in\mcJ(\PF(\qst_1))} (j \land \upclos{j})
   \]
 \end{frame}
 
@@ -128,10 +128,10 @@
   \begin{example}[Expand $\T_f( \qst_1\{p,q\})$]
     \begin{align*}
       \T_f( \qst_1\{p,q\}) 
-        =   &(p \land q \land \uparrow\{p\land q\}) \\
-        \lor&(p \land \lnot q \land \uparrow\{p\land \lnot q\}) \\
-        \lor&(\lnot p \land q \land \uparrow\{\lnot p\land q\}) \\
-        \lor&(\lnot p \land \lnot q \land \uparrow\{\lnot p\land \lnot q\})
+        =   &(p \land q \land \upclos{p\land q}) \\
+        \lor&(p \land \lnot q \land \upclos{p\land \lnot q}) \\
+        \lor&(\lnot p \land q \land \upclos{\lnot p\land q}) \\
+        \lor&(\lnot p \land \lnot q \land \upclos{\lnot p\land \lnot q})
     \end{align*}
   \end{example}
 \end{frame}
@@ -141,8 +141,8 @@
     \begin{align*}
       & \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_0) \\
         =& \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_1) \lor \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_2) \\
-        =& \uparrow\{\lnot p\land q\} \lor \uparrow\{p\land q\} \\
-        =& \uparrow\{p\land q, \lnot p\land q\} 
+        =& \upclos{\lnot p\land q} \lor \upclos{p\land q} \\
+        =& \upclos{p\land q, \lnot p\land q} 
     \end{align*}
   \end{example}
 \end{frame}
