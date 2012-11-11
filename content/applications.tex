@@ -1,12 +1,14 @@
 \section{Applications for Logic Queries}
 
 \begin{frame}[plain]
-  \setbeamercolor{background canvas}{bg=oceangreen!15}
-  \vskip11ex
+  \vfill
+
   \begin{center}
-    \Huge
-    \color{oceangreen}\bfseries \insertsection
+    \Huge \color{oceangreen} \bfseries 
+    Applications for\\ Logic Queries
   \end{center}
+
+  \vfill
 \end{frame}
 
 \begin{frame}{Applications for Query Checking}
@@ -18,19 +20,29 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[plain]{}
+\begin{frame}[plain]{Model}
+  \vfill
+
   \begin{center}
-    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,
-        node distance=12em,thick]
-    \tikzstyle{every state}=[fill=oceangreen!19,minimum width=3em,align=center]
+    \begin{tikzpicture}[
+      ->,
+      >=stealth',
+      shorten >=1pt,
+      auto,
+      thick]
+    \tikzstyle{every state}=[
+      fill=oceangreen!19,
+      minimum width=3em,
+      align=center,
+      node distance={5ex and 5em}]
 
       \node[initial,state] (A) {p = off\\v = 0};
-      \node[state]         (B) [above right of=A,yshift=-7ex] {p = on\\v = 1};
-      \node[state]         (C) [below right of=B,yshift=7ex] {p = on\\v = 2};
-      \node[state]         (D) [below left of=C,yshift=7ex] {p = on\\v = 3};
-      \node[state]         (E) [below of=A,node distance=8em] {p = on\\v = 4};
+      \node[state]         (B) [above right=of A] {p = on\\v = 1};
+      \node[state]         (C) [below right=of B] {p = on\\v = 2};
+      \node[state]         (D) [below left=of C] {p = on\\v = 3};
+      \node[state]         (E) [below=of A] {p = on\\v = 4};
 
-      \path (A) edge [bend left] (B)
+      \path[very thick] (A) edge [bend left] (B)
             (B) edge [bend left] (A)
                 edge [bend left] (C)
             (C) edge (A)
@@ -42,6 +54,8 @@
             (E) edge (A);
     \end{tikzpicture}
   \end{center}
+
+  \vfill
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -90,16 +104,16 @@
   \[ \qst_1 = \{v = 4\} \]
 \end{frame}
 
-\begin{frame}{Discovering Invariants}
-  More invariants:
-  \[ \AG (\qst_1\{p\} \Rightarrow \qst_2\{v\}) \]
-  
-  Partial Solution:
-  \begin{align*}
-    \qst_1 &= \{p = \text{off}\} &\qst_2 &= \{v = 0\} \\
-    \qst_1 &= \{p = \text{standby}\} &\qst_2 &= \{v = 4\}
-  \end{align*}
-\end{frame}
+%\begin{frame}{Discovering Invariants}
+%  More invariants:
+%  \[ \AG (\qst_1\{p\} \Rightarrow \qst_2\{v\}) \]
+%  
+%  Partial Solution:
+%  \begin{align*}
+%    \qst_1 &= \{p = \text{off}\} &\qst_2 &= \{v = 0\} \\
+%    \qst_1 &= \{p = \text{standby}\} &\qst_2 &= \{v = 4\}
+%  \end{align*}
+%\end{frame}
 
 %\begin{frame}{Guard Discovery}
 %  Nicht auch noch?
@@ -109,9 +123,52 @@
 \subsection{With Witnesses} 
 
 \begin{frame}{Applications with Witnesses}
-  Witnesses show why a formula holds
+  Witnesses show a path satisfying a formula
+  
+  \vfill
+  
+  Or violating a formula
+  
+  \[ \AG (p = off) \]
 \end{frame}
 
+\begin{frame}[plain]{Whitness}
+  \vfill
+
+  \begin{center}
+    \begin{tikzpicture}[
+      ->,
+      >=stealth',
+      shorten >=1pt,
+      auto,
+      thick]
+    \tikzstyle{every state}=[
+      fill=oceangreen!19,
+      minimum width=3em,
+      align=center,
+      node distance={5ex and 5em}]
+
+      \node[initial,state,fill=red!19] (A) {p = off\\v = 0};
+      \node[state,fill=red!19]         (B) [above right=of A] {p = on\\v = 1};
+      \node[state]         (C) [below right=of B] {p = on\\v = 2};
+      \node[state]         (D) [below left=of C] {p = on\\v = 3};
+      \node[state]         (E) [below=of A] {p = on\\v = 4};
+
+      \path[very thick] (A) edge [bend left,red] (B)
+            (B) edge [bend left] (A)
+                edge [bend left] (C)
+            (C) edge (A)
+                edge [bend left] (B)
+                edge [bend left] (D)
+            (D) edge (A)
+                edge (B)
+                edge [bend left] (C)
+            (E) edge (A);
+    \end{tikzpicture}
+  \end{center}
+
+  \vfill
+\end{frame}
 
 \begin{frame}{Simulation}
   Explore a model by simulating the system
@@ -119,7 +176,9 @@
     \item provide inputs 
     \item observe outputs
   \end{itemize}
-  
+
+  \vfill
+
   \begin{itemize}
     \item nearly impossible to achieve an objective
     \item guess inputs to achieve an objective
