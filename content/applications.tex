@@ -24,25 +24,14 @@
   \vfill
 
   \begin{center}
-    \begin{tikzpicture}[
-      ->,
-      >=stealth',
-      shorten >=1pt,
-      auto,
-      thick]
-    \tikzstyle{every state}=[
-      fill=oceangreen!19,
-      minimum width=3em,
-      align=center,
-      node distance={5ex and 5em}]
-
+    \begin{tikzpicture}[]
       \node[initial,state] (A) {p = off\\v = 0};
       \node[state]         (B) [above right=of A] {p = on\\v = 1};
       \node[state]         (C) [below right=of B] {p = on\\v = 2};
       \node[state]         (D) [below left=of C] {p = on\\v = 3};
       \node[state]         (E) [below=of A] {p = on\\v = 4};
 
-      \path[very thick] (A) edge [bend left] (B)
+      \path[->] (A) edge [bend left] (B)
             (B) edge [bend left] (A)
                 edge [bend left] (C)
             (C) edge (A)
@@ -115,9 +104,7 @@
 %  \end{align*}
 %\end{frame}
 
-%\begin{frame}{Guard Discovery}
-%  Nicht auch noch?
-%\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{With Witnesses} 
@@ -136,25 +123,14 @@
   \vfill
 
   \begin{center}
-    \begin{tikzpicture}[
-      ->,
-      >=stealth',
-      shorten >=1pt,
-      auto,
-      thick]
-    \tikzstyle{every state}=[
-      fill=oceangreen!19,
-      minimum width=3em,
-      align=center,
-      node distance={5ex and 5em}]
-
+    \begin{tikzpicture}
       \node[initial,state,fill=red!19] (A) {p = off\\v = 0};
       \node[state,fill=red!19]         (B) [above right=of A] {p = on\\v = 1};
       \node[state]         (C) [below right=of B] {p = on\\v = 2};
       \node[state]         (D) [below left=of C] {p = on\\v = 3};
       \node[state]         (E) [below=of A] {p = on\\v = 4};
 
-      \path[very thick] (A) edge [bend left,red] (B)
+      \path[->] (A) edge [bend left,red] (B)
             (B) edge [bend left] (A)
                 edge [bend left] (C)
             (C) edge (A)

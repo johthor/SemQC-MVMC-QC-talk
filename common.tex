@@ -13,6 +13,20 @@
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata,positioning}
+\tikzset{
+  >=stealth',
+  shorten >=1.5pt,
+  auto,
+  node distance=3ex and 4em, 
+  every state/.append style={
+    fill=oceangreen!19,
+    minimum width=5em,
+    align=center,
+    inner sep=4pt},
+  every edge/.append style={thick},
+  every pin/.style={distance=2ex},
+  every pin edge/.style={draw=none}
+}
 
 %%% Math operands %%%
 

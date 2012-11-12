@@ -30,22 +30,16 @@
   \vfill
 
   \begin{center}
-    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,
-        node distance=12em,thick]
-    \tikzstyle{every state}=[fill=oceangreen!19,minimum width=5em,align=center,inner sep=4pt]
-    \tikzstyle{every pin}=[distance=2ex]
-    \tikzstyle{every pin edge}=[-,draw=none,thin]
-
+    \begin{tikzpicture}
       \node[initial,state,pin=above :{$s_0$}] (s0) {$p$\\$\lnot q$\\$r$};
-      \node[state,pin=right :{$s_2$}]         (s2) [below right of=s0] {$p$\\$q$\\$r$};
-      \node[state,pin=above :{$s_1$}]         (s1) [above right of=s2] {$\lnot p$\\$q$\\$r$};
-      
+      \node[state,pin=right :{$s_2$}]         (s2) [below right=of s0] {$p$\\$q$\\$r$};
+      \node[state,pin=above :{$s_1$}]         (s1) [above right=of s2] {$\lnot p$\\$q$\\$r$};
 
-      \path (s0) edge (s1)
-            (s0) edge [bend left] (s2)
-            (s1) edge [loop right] ()
-            (s2) edge [bend left] (s0)
-                 edge (s1);
+      \path[->] (s0) edge (s1)
+                     edge [bend left] (s2)
+                (s1) edge [loop right] ()
+                (s2) edge [bend left] (s0)
+                     edge (s1);
     \end{tikzpicture}
   \end{center}
 
@@ -65,13 +59,41 @@
 %\end{frame}
 
 
-\begin{frame}{Simple Query $\qst_1\{p\}$}
+\begin{frame}{Simple Query}
+  Query  $\qst_1\{p\}$:
+
+  \vfill
+
   Propositional formulas:
-  \[ \PF(\{p\}) = \{ \true, \false, p, \lnot p\} \]
-  
-  Formula $p$ holds in $s_0$
-  
-  Solution is \upclos{p}
+  \[ \PF(\{p\}) = \{\false, p, \lnot p, \true\} \]
+\end{frame}
+
+\begin{frame}{Lattice $(\PF(\{p\}),\Rightarrow)$}
+  \begin{align*}
+    \false &\implies p & p &\implies \true \\
+    \false &\implies \lnot p & \lnot p &\implies \true \\
+    \false &\implies \true & &
+  \end{align*}
+
+  \vfill\pause
+
+  \begin{center}
+    \begin{tikzpicture}
+      \node (f) {$\false$};
+      \node (p) [above left=of f] {$p$};
+      \node (np) [above right=of f] {$\lnot p$};
+      \node (t) [above right=of p] {$\true$};
+
+      \path[-] (f)  edge (p)
+                    edge (np)
+               (p)  edge (t)
+               (np) edge (t);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Simple Query}
+  Formulas $p$ and $\true$ hold in $s_0$
   
   
 \end{frame}
@@ -83,7 +105,9 @@
        \upclos{\lnot p} & \text{if } \llbracket \lnot p \rrbracket (s) = \true \\
      \end{cases} 
   \]
-  
+\end{frame}
+
+\begin{frame}{Simple Query $\qst_1\{p\}$}
   $\chi$CTL(\mcL) formula for $\qst_1\{p\}$:
   \[ (p \land \upclos{p}) \lor (\lnot p \land \upclos{\lnot p}) \]
 \end{frame}
