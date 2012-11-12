@@ -26,19 +26,19 @@
 \end{frame}
 
 
-\begin{frame}[plain]{Example Kripke Structure}
+\begin{frame}[plain]
   \vfill
 
   \begin{center}
     \begin{tikzpicture}
       \node[initial,state,pin=above :{$s_0$}] (s0) {$p$\\$\lnot q$\\$r$};
-      \node[state,pin=right :{$s_2$}]         (s2) [below right=of s0] {$p$\\$q$\\$r$};
+      \node[state,pin=below :{$s_2$}]         (s2) [below right=of s0] {$p$\\$q$\\$r$};
       \node[state,pin=above :{$s_1$}]         (s1) [above right=of s2] {$\lnot p$\\$q$\\$r$};
 
       \path[->] (s0) edge (s1)
-                     edge [bend left] (s2)
+                     edge [bend left=20] (s2)
                 (s1) edge [loop right] ()
-                (s2) edge [bend left] (s0)
+                (s2) edge [bend left=20] (s0)
                      edge (s1);
     \end{tikzpicture}
   \end{center}
@@ -60,11 +60,12 @@
 
 
 \begin{frame}{Simple Query}
-  Query  $\qst_1\{p\}$:
+  Query  
+  \[ \qst_1\{p\} \]
 
   \vfill
 
-  Propositional formulas:
+  Propositional formulas
   \[ \PF(\{p\}) = \{\false, p, \lnot p, \true\} \]
 \end{frame}
 
@@ -95,7 +96,8 @@
 \begin{frame}{Simple Query}
   Formulas $p$ and $\true$ hold in $s_0$
   
-  
+  Upward Closure 
+  \[ \upclos{p} = \{ p, \true\} \]
 \end{frame}
 
 \begin{frame}{Simple Query $\qst_1\{p\}$}

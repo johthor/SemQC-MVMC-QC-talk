@@ -20,26 +20,21 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[plain]{Model}
+\begin{frame}[plain]
   \vfill
 
   \begin{center}
-    \begin{tikzpicture}[]
+    \begin{tikzpicture}[node distance=5em]
       \node[initial,state] (A) {p = off\\v = 0};
-      \node[state]         (B) [above right=of A] {p = on\\v = 1};
-      \node[state]         (C) [below right=of B] {p = on\\v = 2};
-      \node[state]         (D) [below left=of C] {p = on\\v = 3};
+      \node[state]         (B) [right=of A] {p = on\\v = 1};
+      \node[state]         (C) [below=of B] {p = on\\v = 2};
       \node[state]         (E) [below=of A] {p = on\\v = 4};
 
-      \path[->] (A) edge [bend left] (B)
-            (B) edge [bend left] (A)
-                edge [bend left] (C)
+      \path[->] (A) edge [bend left=20] (B)
+            (B) edge [bend left=20] (A)
+                edge [bend left=20] (C)
             (C) edge (A)
-                edge [bend left] (B)
-                edge [bend left] (D)
-            (D) edge (A)
-                edge (B)
-                edge [bend left] (C)
+                edge [bend left=20] (B)
             (E) edge (A);
     \end{tikzpicture}
   \end{center}
@@ -114,31 +109,26 @@
   
   \vfill
   
-  Or violating a formula
+  or violating a formula
   
   \[ \AG (p = off) \]
 \end{frame}
 
-\begin{frame}[plain]{Whitness}
+\begin{frame}[plain]
   \vfill
 
   \begin{center}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[node distance=5em]
       \node[initial,state,fill=red!19] (A) {p = off\\v = 0};
-      \node[state,fill=red!19]         (B) [above right=of A] {p = on\\v = 1};
-      \node[state]         (C) [below right=of B] {p = on\\v = 2};
-      \node[state]         (D) [below left=of C] {p = on\\v = 3};
+      \node[state,fill=red!19]         (B) [right=of A] {p = on\\v = 1};
+      \node[state]         (C) [below=of B] {p = on\\v = 2};
       \node[state]         (E) [below=of A] {p = on\\v = 4};
 
-      \path[->] (A) edge [bend left,red] (B)
-            (B) edge [bend left] (A)
-                edge [bend left] (C)
+      \path[->] (A) edge [bend left=20,red] (B)
+            (B) edge [bend left=20] (A)
+                edge [bend left=20] (C)
             (C) edge (A)
-                edge [bend left] (B)
-                edge [bend left] (D)
-            (D) edge (A)
-                edge (B)
-                edge [bend left] (C)
+                edge [bend left=20] (B)
             (E) edge (A);
     \end{tikzpicture}
   \end{center}
