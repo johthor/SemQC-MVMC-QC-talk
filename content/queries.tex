@@ -71,19 +71,19 @@
 
 \begin{frame}{Lattice $(\PF(\{p\}),\Rightarrow)$}
   \begin{align*}
-    \false &\implies p & p &\implies \true \\
-    \false &\implies \lnot p & \lnot p &\implies \true \\
-    \false &\implies \true & &
+    \false &\implies p & p &\implies \true & \false &\implies \true \\
+    \false &\implies \lnot p & \lnot p &\implies \true & & 
   \end{align*}
 
-  \vfill\pause
-
+  \pause
+  
   \begin{center}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[node distance=2em]
       \node (f) {$\false$};
       \node (p) [above left=of f] {$p$};
       \node (np) [above right=of f] {$\lnot p$};
       \node (t) [above right=of p] {$\true$};
+      \node (l) [left =of p] {$(\PF(\{p\}),\Rightarrow)$};
 
       \path[-] (f)  edge (p)
                     edge (np)
@@ -96,7 +96,9 @@
 \begin{frame}{Simple Query}
   Formulas $p$ and $\true$ hold in $s_0$
   
-  Upward Closure 
+  \[ p \implies \true \]
+  
+  Solution: upward closure 
   \[ \upclos{p} = \{ p, \true\} \]
 \end{frame}
 
@@ -104,7 +106,7 @@
   Arbitrary state $s$:
   \[ \llbracket \qst_1\{p\} \rrbracket (s) = \begin{cases}
        \upclos{p} & \text{if } \llbracket p \rrbracket (s) = \true \\
-       \upclos{\lnot p} & \text{if } \llbracket \lnot p \rrbracket (s) = \true \\
+       \upclos{\lnot p} & \text{if } \llbracket \lnot p \rrbracket (s) = \true
      \end{cases} 
   \]
 \end{frame}
@@ -112,6 +114,17 @@
 \begin{frame}{Simple Query $\qst_1\{p\}$}
   $\chi$CTL(\mcL) formula for $\qst_1\{p\}$:
   \[ (p \land \upclos{p}) \lor (\lnot p \land \upclos{\lnot p}) \]
+\end{frame}
+
+\begin{frame}{Join-Irreducible Elements}
+  \[ 
+    \mcJ(\PF(\{p\})) = \{ p, \lnot p \} 
+  \]
+  
+  \[ 
+    \mcJ(\PF(\{p,q\})) = \{ p \land q, p \land \lnot q, 
+                            \lnot p \land q, \lnot p \land \lnot q \} 
+  \]
 \end{frame}
 
 \begin{frame}{Query $\qst_1$}
