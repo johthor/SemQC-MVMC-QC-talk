@@ -48,17 +48,6 @@
 
 \subsection[One Placeholder]{Queries with One Placeholder}
 
-%\begin{frame}{Basics}
-%  Propositional formulas $\PF(P)$
-%  \[ \PF(\{p\}) = \{ \true, \false, p, \lnot p\} \]
-%  
-%  $\mcJ(\mcL)$ set of all join-irreducible elements of \
-%  
-%  $\chi$CTL(\mcL) formula for $\qst_1\{p\}$:
-%  \[ (p \land \uparrow\{p\}) \lor (\lnot p \land \uparrow\{\lnot p\}) \]
-%\end{frame}
-
-
 \begin{frame}{Simple Query}
   Query  
   \[ \qst_1\{p\} \]
@@ -79,21 +68,26 @@
   
   \begin{center}
     \begin{tikzpicture}[node distance=2em]
-      \node (f) {$\false$};
-      \node (p) [above left=of f] {$p$};
-      \node (np) [above right=of f] {$\lnot p$};
-      \node (t) [above right=of p] {$\true$};
-      \node (l) [left =of p] {$(\PF(\{p\}),\Rightarrow)$};
-
+      \matrix [
+          matrix of math nodes,%
+          ampersand replacement=\&,%
+          column sep=2em,%
+          row sep=3ex] {
+        \& |(t)| \true \& \\
+        |(p)| p \&  \& |(np)| \lnot p \\
+        \& |(f)| \false \&  \\
+      };
       \path[-] (f)  edge (p)
                     edge (np)
                (p)  edge (t)
                (np) edge (t);
+
+      \node (l) [left =of p] {$(\PF(\{p\}),\Rightarrow)$};
     \end{tikzpicture}
   \end{center}
 \end{frame}
 
-\begin{frame}{Simple Query}
+\begin{frame}{Simple Query $\qst_1\{p\}$}
   Formulas $p$ and $\true$ hold in $s_0$
   
   \[ p \implies \true \]
@@ -102,18 +96,88 @@
   \[ \upclos{p} = \{ p, \true\} \]
 \end{frame}
 
-\begin{frame}{Simple Query $\qst_1\{p\}$}
-  Arbitrary state $s$:
-  \[ \llbracket \qst_1\{p\} \rrbracket (s) = \begin{cases}
+\begin{frame}{Arbitrary state $s$}
+  Solution to the query $\qst_1\{p\}$:
+  \[ \left\llbracket \qst_1\{p\} \right\rrbracket (s) = \begin{cases}
        \upclos{p} & \text{if } \llbracket p \rrbracket (s) = \true \\
        \upclos{\lnot p} & \text{if } \llbracket \lnot p \rrbracket (s) = \true
      \end{cases} 
   \]
 \end{frame}
 
-\begin{frame}{Simple Query $\qst_1\{p\}$}
-  $\chi$CTL(\mcL) formula for $\qst_1\{p\}$:
+
+\begin{frame}{$\chi$CTL(\mcL) formula for $\qst_1\{p\}$}
+  Formula:
   \[ (p \land \upclos{p}) \lor (\lnot p \land \upclos{\lnot p}) \]
+\end{frame}
+
+\begin{frame}{Lattice $(\U(\PF(\{p\}),\Rightarrow),\subseteq)$}
+  \begin{center}
+    \begin{tikzpicture}
+      \matrix [
+          matrix of math nodes,%
+          ampersand replacement=\&,%
+          column sep=2em,%
+          row sep=3ex] {
+        \& |(f)| \upclos{\false} \& \\
+        \& |(pnp)| \upclos{p,\lnot p} \& \\
+        |(p)| \upclos{p} \&  \& |(np)| \upclos{\lnot p} \\
+        \& |(t)| \upclos{\true} \& \\
+        \& |(e)| \uparrow\!\emptyset \& \\
+      };
+
+      \path[-] (e)   edge (t)
+               (t)   edge (p)
+                     edge (np)
+               (p)   edge (pnp)
+               (np)  edge (pnp)
+               (pnp) edge (f);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Lattice $(\U(\PF(\{p\}),\Rightarrow),\subseteq)$}
+  \begin{center}
+    \begin{tikzpicture}
+      \matrix [
+          matrix of math nodes,%
+          ampersand replacement=\&,%
+%          column sep=1em,%
+          row sep=3ex] {
+        \& |(f)| \{\false,p,\lnot p,\true\} \& \\
+        \& |(pnp)| \{p,\lnot p,\true\} \& \\
+        |(p)| \{p,\true\} \&  \& |(np)| \{\lnot p,\true\} \\
+        \& |(t)| \{\true\} \& \\
+        \& |(e)| \emptyset \& \\
+      };
+
+      \path[-] (e)   edge (t)
+               (t)   edge (p)
+                     edge (np)
+               (p)   edge (pnp)
+               (np)  edge (pnp)
+               (pnp) edge (f);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[t]
+  \begin{align*}
+    &\llbracket \left(p \land \upclos{p}\right) \lor 
+      \left(\lnot p \land \upclos{\lnot p}\right) \rrbracket \left(s_0\right) \\
+    \Rightarrow &\llbracket p \land \upclos{p} \rrbracket \left(s_0\right) \sqcup 
+      \llbracket \lnot p \land \upclos{\lnot p} \rrbracket \left(s_0\right) \\
+    \Rightarrow &\left(\llbracket p \rrbracket \left(s_0\right) \sqcap 
+        \llbracket \upclos{p} \rrbracket \left(s_0\right)\right) \sqcup 
+      \left(\llbracket \lnot p \rrbracket \left(s_0\right) \sqcap 
+        \llbracket \upclos{\lnot p} \rrbracket \left(s_0\right)\right) \\
+    \Rightarrow &\left(\true \sqcap \upclos{p}\right) \sqcup 
+      \left(\false \sqcap \upclos{\lnot p}\right) \\
+    \Rightarrow &\left(\upclos{\false} \sqcap \upclos{p}\right) \sqcup 
+      \left(\uparrow\!\emptyset\sqcap \upclos{\lnot p}\right) \\
+    \Rightarrow &\upclos{p} \sqcup \uparrow\!\emptyset
+    \Rightarrow \upclos{p}
+  \end{align*}
 \end{frame}
 
 \begin{frame}{Join-Irreducible Elements}
@@ -244,7 +308,8 @@
 \end{frame}
 
 \begin{frame}{Transform into Monotone Query}
-  Transform mixed query $\phi[\qst_1]$ into $\phi[\qst_{1+},\qst_{1-}]$ denoted by $\myH$
+  Transform mixed query $\phi[\qst_1]$ into $\phi[\qst_{1+},\qst_{1-}]$ 
+  denoted by $\myH$
   \begin{itemize}
     \item replace positive occurrences with $\qst_{1+}$
     \item replace negative occurrences with $\qst_{1-}$
