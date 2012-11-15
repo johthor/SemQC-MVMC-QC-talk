@@ -26,7 +26,7 @@
 \end{frame}
 
 
-\begin{frame}[plain]
+\begin{frame}<1>[label=exampleKripke]
   \vfill
 
   \begin{center}
@@ -204,6 +204,11 @@
   \[ 
     \T_\uparrow(\qst_1) \triangleq \bigvee_{j\in\mcJ(\PF(\qst_1))} (j \land \upclos{j})
   \]
+  
+  Correct if
+  \[
+    \llbracket \qst_1 \rrbracket (s) = \llbracket \T_\uparrow(\qst_1) \rrbracket (s)
+  \]
 \end{frame}
 
 \begin{frame}{Generalized Translation $\T_f$}
@@ -228,26 +233,24 @@
 \end{frame}
 
 \begin{frame}{Solution for $\EX \qst_1\{p,q\}$}
-  \begin{example}[Expand $\T_f( \qst_1\{p,q\})$]
-    \begin{align*}
-      \T_f( \qst_1\{p,q\}) 
-        =   &(p \land q \land \upclos{p\land q}) \\
-        \lor&(p \land \lnot q \land \upclos{p\land \lnot q}) \\
-        \lor&(\lnot p \land q \land \upclos{\lnot p\land q}) \\
-        \lor&(\lnot p \land \lnot q \land \upclos{\lnot p\land \lnot q})
-    \end{align*}
-  \end{example}
+  Expand $\T_f( \qst_1\{p,q\})$
+  \begin{align*}
+    \T_f( \qst_1\{p,q\}) 
+      =   &((p \land q) &&\land \upclos{p\land q}) \\
+      \lor&((p \land \lnot q) &&\land \upclos{p\land \lnot q}) \\
+      \lor&((\lnot p \land q) &&\land \upclos{\lnot p\land q}) \\
+      \lor&((\lnot p \land \lnot q) &&\land \upclos{\lnot p\land \lnot q})
+  \end{align*}
 \end{frame}
 
 \begin{frame}{Solution for $\EX \qst_1\{p,q\}$}
-  \begin{example}[Evaluate resulting formula]
-    \begin{align*}
-      & \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_0) \\
-        =& \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_1) \lor \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_2) \\
-        =& \upclos{\lnot p\land q} \lor \upclos{p\land q} \\
-        =& \upclos{p\land q, \lnot p\land q} 
-    \end{align*}
-  \end{example}
+  Evaluate resulting formula
+  \begin{align*}
+    & \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_0) \\
+      =& \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_1) \lor \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_2) \\
+      =& \upclos{\lnot p\land q} \sqcup \upclos{p\land q} \\
+      =& \upclos{p\land q, \lnot p\land q} 
+  \end{align*}
 \end{frame}
 
 \subsection{Multiple Placeholders}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -255,11 +258,78 @@
 \begin{frame}{Decide Queries with Multiple Placeholders}
   Queries with multiple placeholders $\phi[\qst_1,\ldots,\qst_n]$:
   \begin{itemize}
-    \item set of all solutions $L = \PF(\qst_1)\times \cdots \times \PF(\qst_n)$
+    \item all possible substitutions $L = \PF(\qst_1)\times \cdots \times \PF(\qst_n)$
+    \item all solutions $\U(L) = \U(\PF(\qst_1) \times \cdots \times \PF(\qst_n))$
   \end{itemize}
 \end{frame}
 
-\frame{\Huge Hier fehlt mir die Idee wie ich Multiple Placeholders verständlich erklären kann}
+\begin{frame}{Query with Two Placeholders $\qst_1, \qst_2$}
+  Query $\phi[\qst_1,\qst_2]$
+  \[
+    \phi[\qst_1,\qst_2] = \qst_1
+  \]
+
+  with the solution $\upclos{j} \subseteq \PF(\qst_1)$
+\end{frame}
+
+\begin{frame}{Solution $\phi[\qst_1,\qst_2]$}
+  Substitution
+  \[
+    (a,b) \in \PF(\qst_1)\times \PF(\qst_2)
+  \]
+  
+  The solution to $\llbracket \phi[\qst_1,\qst_2] \rrbracket (s)$
+  \[
+    \upclos{j} \times \PF(\qst_2) = \uparrow\!(j,\bot)
+  \]
+\end{frame}
+
+\begin{frame}{Translation for $n$ Placeholders}
+  For any $\qst_i$ the embedding function $f_i : \mcJ(\PF(\qst_i)) \to \U(L)$
+  \begin{align*}
+    f_i(j) &\triangleq \PF(\qst_1) \times \cdots \times \PF(\qst_{i-1}) \times
+      \upclos{j} \times \PF(\qst_{i+1}) \times \cdots \times \PF(\qst_n) \\
+      &= \uparrow\!(\bot_{1},\ldots,\bot_{i-1},j,\bot_{i+1},\ldots,\bot_{n})
+  \end{align*}
+
+  \[
+    \T^n(\phi[\qst_1,\ldots,\qst_n]) 
+    \triangleq \phi[\T_{f_1}(\qst_1),\ldots,\T_{f_n}(\qst_n)]
+  \]
+\end{frame}
+
+\againframe<2>{exampleKripke}
+
+\begin{frame}{Example $\qst_1\{p,q\} \land \EX\qst_2\{p,q\}$}
+  
+  \begin{align*}
+    \llbracket \phi[\qst_1] \rrbracket (s_0) &= \upclos{p \land \lnot q} \\
+    \llbracket \phi[\EX\qst_2] \rrbracket (s_0) &= \upclos{p \land q, \lnot p \land q}
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Example $\qst_1\{p,q\} \land \EX\qst_2\{p,q\}$}
+  Lift solution to $\PF(\qst_1) \times \PF(\qst_2)$
+  \begin{align*}
+    \llbracket \phi[\qst_1] \rrbracket (s_0) 
+      &= f_1(\upclos{p \land \lnot q}) \\
+      &= \upclos{p \land \lnot q} \times \upclos{\false} \\
+    \llbracket \phi[\EX\qst_2] \rrbracket (s_0) 
+      &= f_2(\upclos{p \land q, \lnot p \land q}) \\
+      &= \upclos{\false} \times \upclos{p \land q, \lnot p \land q}
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Example $\qst_1\{p,q\} \land \EX\qst_2\{p,q\}$}
+  \[
+    \upclos{p \land \lnot q} \times \upclos{p \land q, \lnot p \land q}
+  \]
+
+  Minimal solutions
+  \begin{align*}
+    (p \land \lnot q, p \land q) && (p \land \lnot q,\lnot p \land q)
+  \end{align*}
+\end{frame}
 
 
 
