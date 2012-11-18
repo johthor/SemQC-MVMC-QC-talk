@@ -105,12 +105,6 @@
   \]
 \end{frame}
 
-
-\begin{frame}{$\chi$CTL(\mcL) formula for $\qst_1\{p\}$}
-  Formula:
-  \[ (p \land \upclos{p}) \lor (\lnot p \land \upclos{\lnot p}) \]
-\end{frame}
-
 \begin{frame}{Lattice $(\U(\PF(\{p\}),\Rightarrow),\subseteq)$}
   \begin{center}
     \begin{tikzpicture}
@@ -161,6 +155,11 @@
   \end{center}
 \end{frame}
 
+\begin{frame}{$\chi$CTL(\mcL) formula for $\qst_1\{p\}$}
+  Formula:
+  \[ (p \land \upclos{p}) \lor (\lnot p \land \upclos{\lnot p}) \]
+\end{frame}
+
 \begin{frame}[T]
   \begin{align*}
     &\llbracket \left(p \land \upclos{p}\right) \lor 
@@ -208,7 +207,7 @@
 \end{frame}
 
 \begin{frame}{Syntactic Translation $\T_\uparrow$}
-  Translation into $\chi$CTL(\mcL) formula over the lattice $\U(\PF(\qst_1))$:
+  Translation into $\chi$CTL(\mcL) formula over $(\U(\PF(\qst_1),\Rightarrow),\subseteq)$:
   \[ 
     \T_\uparrow(\qst_1) \triangleq \bigvee_{j\in\mcJ(\PF(\qst_1))} (j \land \upclos{j})
   \]
@@ -235,7 +234,6 @@
   \]
   
   \begin{example}[Solution for $\EX \qst_1\{p,q\}$]
-    Apply transformation:
     \[ \T_f(\EX \qst_1\{p,q\}) = \EX\T_f( \qst_1\{p,q\}) \]
   \end{example}
 \end{frame}
@@ -255,11 +253,19 @@
   Evaluate resulting formula
   \begin{align*}
     & \llbracket \EX \T_f( \qst_1\{p,q\}) \rrbracket (s_0) \\
+    \uncover<2->{
       =& \llbracket \T_f( \qst_1\{p,q\}) \rrbracket (s_1) \sqcup \llbracket \T_f( \qst_1\{p,q\}) \rrbracket (s_2) \\
+    }
+    \uncover<3->{
       =& \upclos{\lnot p\land q} \sqcup \upclos{p\land q} \\
+    }
+    \uncover<4->{
       =& \upclos{p\land q, \lnot p\land q} 
+    }
   \end{align*}
 \end{frame}
+
+\againframe<2>{exampleKripke}
 
 \subsection{Multiple Placeholders}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -297,7 +303,9 @@
   \begin{align*}
     f_i(j) &\triangleq \PF(\qst_1) \times \cdots \times \PF(\qst_{i-1}) \times
       \upclos{j} \times \PF(\qst_{i+1}) \times \cdots \times \PF(\qst_n) \\
-      &= \uparrow\!(\bot_{1},\ldots,\bot_{i-1},j,\bot_{i+1},\ldots,\bot_{n})
+      \uncover<2->{
+        &= \uparrow\!(\bot_{1},\ldots,\bot_{i-1},j,\bot_{i+1},\ldots,\bot_{n})
+      }
   \end{align*}
 \end{frame}
 
@@ -315,7 +323,7 @@
   \end{example}
 \end{frame}
 
-\againframe<2>{exampleKripke}
+\againframe<3>{exampleKripke}
 
 \begin{frame}{Example $\qst_1\{p,q\} \land \EX\qst_2\{p,q\}$}
   Lift solution to $\PF(\qst_1) \times \PF(\qst_2)$
