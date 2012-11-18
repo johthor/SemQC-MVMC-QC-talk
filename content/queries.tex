@@ -160,30 +160,30 @@
   \[ (p \land \upclos{p}) \lor (\lnot p \land \upclos{\lnot p}) \]
 \end{frame}
 
-\begin{frame}[T]
+\begin{frame}[T]{}
   \begin{align*}
-    &\llbracket \left(p \land \upclos{p}\right) \lor 
-      \left(\lnot p \land \upclos{\lnot p}\right) \rrbracket \left(s_0\right) \\
+    &\llbracket \left(p \land \upclos{p}\right) 
+    \lor \left(\lnot p \land \upclos{\lnot p}\right) \rrbracket \left(s_0\right) \\
     \uncover<2->{
-      \Rightarrow &\llbracket p \land \upclos{p} \rrbracket \left(s_0\right) 
+      = &\llbracket p \land \upclos{p} \rrbracket \left(s_0\right) 
       \sqcup \llbracket \lnot p \land \upclos{\lnot p} \rrbracket \left(s_0\right) \\
     }
     \uncover<3->{
-      \Rightarrow &\left(\llbracket p \rrbracket \left(s_0\right) 
+      = &\left(\llbracket p \rrbracket \left(s_0\right) 
         \sqcap \llbracket \upclos{p} \rrbracket \left(s_0\right)\right) 
       \sqcup \left(\llbracket \lnot p \rrbracket \left(s_0\right) 
         \sqcap \llbracket \upclos{\lnot p} \rrbracket \left(s_0\right)\right) \\
     }
     \uncover<4->{
-      \Rightarrow &\left(\true \sqcap \upclos{p}\right) 
-      \sqcup \left(\false \sqcap \upclos{\lnot p}\right) \\
+      = &\left(\top \sqcap \upclos{p}\right) 
+      \sqcup \left(\bot \sqcap \upclos{\lnot p}\right) \\
     }
     \uncover<5->{
-      \Rightarrow &\left(\upclos{\false} \cap \upclos{p}\right) 
+      = &\left(\upclos{\false} \cap \upclos{p}\right) 
       \cup \left(\uparrow\!\emptyset \cap \upclos{\lnot p}\right) \\
     }
-    \uncover<6->{\Rightarrow &\upclos{p} \cup \uparrow\!\emptyset}
-    \uncover<7->{\Rightarrow \upclos{p}}
+    \uncover<6->{= &\upclos{p} \cup \uparrow\!\emptyset \\}
+    \uncover<7->{= &\upclos{p} = \{p, \true\}}
   \end{align*}
 \end{frame}
 
@@ -249,6 +249,8 @@
 %  \end{align*}
 %\end{frame}
 
+\againframe<2>{exampleKripke}
+
 \begin{frame}{Solution for $\EX \qst_1\{p,q\}$}
   Evaluate resulting formula
   \begin{align*}
@@ -264,8 +266,6 @@
     }
   \end{align*}
 \end{frame}
-
-\againframe<2>{exampleKripke}
 
 \subsection{Multiple Placeholders}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
